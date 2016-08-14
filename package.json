@@ -1,0 +1,65 @@
+{
+  "name": "serverless-alexa-plugin",
+  "version": "0.0.1",
+  "description": "Serverless plugin to support Alexa Lambda events",
+  "main": "dist/serverless-alexa-plugin.js",
+  "scripts": {
+    "test": "gulp",
+    "lint": "gulp lint",
+    "test-browser": "gulp test-browser",
+    "watch": "gulp watch",
+    "build": "gulp build",
+    "coverage": "gulp coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rajington/serverless-alexa-plugin.git"
+  },
+  "keywords": [],
+  "author": "Rajarshi Nigam <raj@nigam.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rajington/serverless-alexa-plugin/issues"
+  },
+  "homepage": "https://github.com/rajington/serverless-alexa-plugin",
+  "devDependencies": {
+    "babel-core": "^6.3.26",
+    "babel-loader": "^6.2.0",
+    "babel-polyfill": "^6.3.14",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-register": "^6.3.13",
+    "chai": "^3.4.1",
+    "del": "^2.2.0",
+    "eslint": "^3.3.0",
+    "eslint-config-airbnb": "^10.0.1",
+    "eslint-plugin-import": "^1.13.0",
+    "eslint-plugin-jsx-a11y": "^2.1.0",
+    "eslint-plugin-react": "^6.1.0",
+    "glob": "^7.0.3",
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^3.0.0",
+    "gulp-filter": "^4.0.0",
+    "gulp-istanbul": "^1.0.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-load-plugins": "^1.1.0",
+    "gulp-mocha": "^2.2.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.1",
+    "isparta": "^4.0.0",
+    "json-loader": "^0.5.3",
+    "mocha": "^2.3.4",
+    "sinon": "^1.17.2",
+    "sinon-chai": "^2.8.0",
+    "webpack": "^1.12.9",
+    "webpack-stream": "^3.1.0"
+  },
+  "babelBoilerplateOptions": {
+    "entryFileName": "serverless-alexa-plugin.js",
+    "mainVarName": "serverlessAlexaPlugin"
+  },
+  "dependencies": {
+    "lodash": "^4.15.0"
+  }
+}
