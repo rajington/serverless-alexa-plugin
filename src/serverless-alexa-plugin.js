@@ -22,20 +22,39 @@ class ServerlessAlexaPlugin {
       if (functionObj.events) {
         for (let i = 0; i < functionObj.events.length; i++) {
           const event = functionObj.events[i];
-          if (event === 'ask') {
-            const permissionTemplate = `
-              {
-                "Type": "AWS::Lambda::Permission",
-                "Properties": {
-                  "FunctionName": { "Fn::GetAtt": ["${functionName}", "Arn"] },
-                  "Action": "lambda:InvokeFunction",
-                  "Principal": "alexa-appkit.amazon.com"
-                }
+          if (event === 'alexaSkillsKit' || event.alexaSmartHome) {
+            const permissionTemplate = {
+              Type: 'AWS::Lambda::Permission',
+              Properties: {
+                FunctionName: { 'Fn::GetAtt': ['${functionName}', 'Arn'] },
+                Action: 'lambda:InvokeFunction',
+              },
+            };
+
+            if (event === 'alexaSkillsKit') {
+              permissionTemplate.Principal = 'alexa-appkit.amazon.com';
+            } else {
+              if (typeof event.alexaSmartHome !== 'string') {
+                const errorMessage = [
+                  `Alexa Smart Home event of function ${functionName} is not a string`,
+                  ' The correct syntax requires your skill\'s application ID from the',
+                  ' Alexa Developer Console, example:',
+                  ' alexaSmartHome: amzn1.ask.skill.12345678-1234-4234-8234-9234567890AB',
+                  ' Please check the docs for more info.',
+                ].join('');
+                throw new this.serverless.classes
+                  .Error(errorMessage);
               }
-            `;
+              permissionTemplate.Principal = 'alexa-connectedhome.amazon.com';
+              permissionTemplate.Condition = {
+                StringEquals: {
+                  'lambda:EventSourceToken': event.alexaSmartHome,
+                },
+              };
+            }
 
             const newPermissionObject = {
-              [`${functionName}AlexaSkillsKitEventPermission${i}`]: JSON.parse(permissionTemplate),
+              [`${functionName}AlexaEventPermission${i}`]: permissionTemplate,
             };
 
             merge(this.serverless.service.resources.Resources,

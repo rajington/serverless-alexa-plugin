@@ -25,11 +25,11 @@ describe('ServerlessAlexaPlugin', () => {
       expect(() => alexaPlugin.compileAlexaEvents()).to.throw(Error);
     });
 
-    it('should create corresponding resources when ask events are given', () => {
+    it('should create corresponding resources when alexaSkillsKit events are given', () => {
       alexaPlugin.serverless.service.functions = {
         first: {
           events: [
-            'ask',
+            'alexaSkillsKit',
           ],
         },
       };
@@ -37,8 +37,28 @@ describe('ServerlessAlexaPlugin', () => {
       alexaPlugin.compileAlexaEvents();
 
       expect(alexaPlugin.serverless.service
-        .resources.Resources.firstAlexaSkillsKitEventPermission0.Type
+        .resources.Resources.firstAlexaEventPermission0.Type
       ).to.equal('AWS::Lambda::Permission');
+    });
+
+    it('should create corresponding resources when alexaSmartHome events are given', () => {
+      const alexaAppId = 'amzn1.ask.skill.12345678-1234-4234-8234-9234567890AB';
+      alexaPlugin.serverless.service.functions = {
+        first: {
+          events: [
+            {
+              alexaSmartHome: alexaAppId,
+            },
+          ],
+        },
+      };
+
+      alexaPlugin.compileAlexaEvents();
+
+      expect(alexaPlugin.serverless.service
+        .resources.Resources.firstAlexaEventPermission0
+        .Condition.StringEquals['lambda:EventSourceToken']
+      ).to.equal(alexaAppId);
     });
 
     it('should not create corresponding resources when ask events are not given', () => {
