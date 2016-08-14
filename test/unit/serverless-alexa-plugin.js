@@ -1,18 +1,58 @@
-import serverlessAlexaPlugin from '../../src/serverless-alexa-plugin';
+import Serverless from 'serverless';
+import ServerlessAlexaPlugin from '../../src/serverless-alexa-plugin';
 
-describe('serverlessAlexaPlugin', () => {
-  describe('Greet function', () => {
-    beforeEach(() => {
-      spy(serverlessAlexaPlugin, 'greet');
-      serverlessAlexaPlugin.greet();
+describe('ServerlessAlexaPlugin', () => {
+  let serverless;
+  let alexaPlugin;
+
+  beforeEach(() => {
+    serverless = new Serverless();
+    serverless.service.resources = { Resources: {} };
+    alexaPlugin = new ServerlessAlexaPlugin(serverless);
+    alexaPlugin.serverless.service.service = 'new-service';
+  });
+
+  describe('#constructor()', () => {
+    it('should set the provider variable to "aws"', () =>
+      expect(
+        alexaPlugin.provider
+      ).to.equal('aws'));
+  });
+
+  describe('#compileAlexaEvents()', () => {
+    it('should throw an error if the resource section is not available', () => {
+      alexaPlugin.serverless.service.resources.Resources = false;
+      expect(() => alexaPlugin.compileAlexaEvents()).to.throw(Error);
     });
 
-    it('should have been run once', () => {
-      expect(serverlessAlexaPlugin.greet).to.have.been.calledOnce;
+    it('should create corresponding resources when ask events are given', () => {
+      alexaPlugin.serverless.service.functions = {
+        first: {
+          events: [
+            'ask',
+          ],
+        },
+      };
+
+      alexaPlugin.compileAlexaEvents();
+
+      expect(alexaPlugin.serverless.service
+        .resources.Resources.firstAlexaSkillsKitEventPermission0.Type
+      ).to.equal('AWS::Lambda::Permission');
     });
 
-    it('should have always returned hello', () => {
-      expect(serverlessAlexaPlugin.greet).to.have.always.returned('hello');
+    it('should not create corresponding resources when ask events are not given', () => {
+      alexaPlugin.serverless.service.functions = {
+        first: {
+          events: [],
+        },
+      };
+
+      alexaPlugin.compileAlexaEvents();
+
+      expect(
+        alexaPlugin.serverless.service.resources.Resources
+      ).to.deep.equal({});
     });
   });
 });
