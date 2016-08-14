@@ -42,8 +42,6 @@ functions:
             - alexaSmartHome: amzn1.ask.skill.12345678-1234-4234-8234-9234567890AB
 ```
 
-Alexa Voice Services events
-
 [![Travis build status](http://img.shields.io/travis/rajington/serverless-alexa-plugin.svg?style=flat)](https://travis-ci.org/rajington/serverless-alexa-plugin)
 [![Code Climate](https://codeclimate.com/github/rajington/serverless-alexa-plugin/badges/gpa.svg)](https://codeclimate.com/github/rajington/serverless-alexa-plugin)
 [![Test Coverage](https://codeclimate.com/github/rajington/serverless-alexa-plugin/badges/coverage.svg)](https://codeclimate.com/github/rajington/serverless-alexa-plugin)
