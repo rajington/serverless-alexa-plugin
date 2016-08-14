@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 var mochaGlobals = require('./.globals.json').globals;
 
 window.mocha.setup('bdd');
