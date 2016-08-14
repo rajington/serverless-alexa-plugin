@@ -6,11 +6,9 @@
 [![Dependency Status](https://david-dm.org/rajington/serverless-alexa-plugin.svg)](https://david-dm.org/rajington/serverless-alexa-plugin)
 [![devDependency Status](https://david-dm.org/rajington/serverless-alexa-plugin/dev-status.svg)](https://david-dm.org/rajington/serverless-alexa-plugin#info=devDependencies)
 
-This plugins compiles the Alexa Skills Kit and Alexa Smart Home events to a CloudFormation resource.
+This plugins compiles the Alexa Skills Kit events to a CloudFormation resource.
 
 It requires Serverless 1.0 or later.
-
-Everything should work but it is still being developed, please file any issues or PRs.
 
 ## How it works
 
@@ -36,6 +34,12 @@ functions:
         events:
             - alexaSkillsKit
 ```
+
+## TODO:
+
+I do not believe Alexa Smart Home events are possible via CloudFormation, although they are supported via [command-line](http://docs.aws.amazon.com/cli/latest/reference/lambda/add-permission.html?highlight=event-source-token) and [SDK](https://github.com/aws/aws-sdk-js/blob/master/apis/lambda-2015-03-31.normal.json#L474).
+
+It may require creating a separate policy to be linked, will have to investigate. The plugin accepts the value and supplies it to CloudFormation, but it currently fails.
 
 Configure Alexa Smart Home event:
 

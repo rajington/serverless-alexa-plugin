@@ -26,13 +26,13 @@ class ServerlessAlexaPlugin {
             const permissionTemplate = {
               Type: 'AWS::Lambda::Permission',
               Properties: {
-                FunctionName: { 'Fn::GetAtt': ['${functionName}', 'Arn'] },
+                FunctionName: { 'Fn::GetAtt': [functionName, 'Arn'] },
                 Action: 'lambda:InvokeFunction',
               },
             };
 
             if (event === 'alexaSkillsKit') {
-              permissionTemplate.Principal = 'alexa-appkit.amazon.com';
+              permissionTemplate.Properties.Principal = 'alexa-appkit.amazon.com';
             } else {
               if (typeof event.alexaSmartHome !== 'string') {
                 const errorMessage = [
@@ -45,12 +45,8 @@ class ServerlessAlexaPlugin {
                 throw new this.serverless.classes
                   .Error(errorMessage);
               }
-              permissionTemplate.Principal = 'alexa-connectedhome.amazon.com';
-              permissionTemplate.Condition = {
-                StringEquals: {
-                  'lambda:EventSourceToken': event.alexaSmartHome,
-                },
-              };
+              permissionTemplate.Properties.Principal = 'alexa-connectedhome.amazon.com';
+              permissionTemplate.Properties.EventSourceToken = event.alexaSmartHome;
             }
 
             const newPermissionObject = {
@@ -66,4 +62,5 @@ class ServerlessAlexaPlugin {
   }
 }
 
-export default ServerlessAlexaPlugin;
+// TODO: consider `export default ServerlessAlexaPlugin;`
+module.exports = ServerlessAlexaPlugin;

@@ -57,7 +57,7 @@ describe('ServerlessAlexaPlugin', () => {
 
       expect(alexaPlugin.serverless.service
         .resources.Resources.firstAlexaEventPermission0
-        .Condition.StringEquals['lambda:EventSourceToken']
+        .Properties.EventSourceToken
       ).to.equal(alexaAppId);
     });
 
