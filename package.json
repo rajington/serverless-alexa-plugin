@@ -1,6 +1,6 @@
 {
   "name": "serverless-alexa-plugin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Serverless plugin to support Alexa Lambda events, requires Serverless 1.0+",
   "main": "dist/serverless-alexa-plugin.js",
   "scripts": {
