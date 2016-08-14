@@ -56,10 +56,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _lodash = __webpack_require__(1);
@@ -99,24 +95,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	              var permissionTemplate = {
 	                Type: 'AWS::Lambda::Permission',
 	                Properties: {
-	                  FunctionName: { 'Fn::GetAtt': ['${functionName}', 'Arn'] },
+	                  FunctionName: { 'Fn::GetAtt': [functionName, 'Arn'] },
 	                  Action: 'lambda:InvokeFunction'
 	                }
 	              };
 	
 	              if (event === 'alexaSkillsKit') {
-	                permissionTemplate.Principal = 'alexa-appkit.amazon.com';
+	                permissionTemplate.Properties.Principal = 'alexa-appkit.amazon.com';
 	              } else {
 	                if (typeof event.alexaSmartHome !== 'string') {
 	                  var errorMessage = ['Alexa Smart Home event of function ' + functionName + ' is not a string', ' The correct syntax requires your skill\'s application ID from the', ' Alexa Developer Console, example:', ' alexaSmartHome: amzn1.ask.skill.12345678-1234-4234-8234-9234567890AB', ' Please check the docs for more info.'].join('');
 	                  throw new _this.serverless.classes.Error(errorMessage);
 	                }
-	                permissionTemplate.Principal = 'alexa-connectedhome.amazon.com';
-	                permissionTemplate.Condition = {
-	                  StringEquals: {
-	                    'lambda:EventSourceToken': event.alexaSmartHome
-	                  }
-	                };
+	                permissionTemplate.Properties.Principal = 'alexa-connectedhome.amazon.com';
+	                permissionTemplate.Properties.EventSourceToken = event.alexaSmartHome;
 	              }
 	
 	              var newPermissionObject = _defineProperty({}, functionName + 'AlexaEventPermission' + i, permissionTemplate);
@@ -132,7 +124,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return ServerlessAlexaPlugin;
 	}();
 	
-	exports.default = ServerlessAlexaPlugin;
+	// TODO: consider `export default ServerlessAlexaPlugin;`
+	
+	
+	module.exports = ServerlessAlexaPlugin;
 
 /***/ },
 /* 1 */
