@@ -1,3 +1,5 @@
+## [Serverless Framework now supports Alexa Events directly, without this plugin!](https://serverless.com/framework/docs/providers/aws/events/alexa-skill/)
+
 # Serverless Alexa Events
 
 [![Travis build status](http://img.shields.io/travis/rajington/serverless-alexa-plugin.svg?style=flat)](https://travis-ci.org/rajington/serverless-alexa-plugin)
